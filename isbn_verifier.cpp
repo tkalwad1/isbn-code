@@ -24,14 +24,14 @@ namespace isbn_verifier {
         }
 
         //account for X being converted to 1 and 0
-        if(digits[digits.size() - 1] == 0 && digits[digits.size() - 2] == 1 &&             digits.size() != 10){
+        if(digits[digits.size() - 1] == 0 && digits[digits.size() - 2] == 1 && digits.size() != 10){
             digits.pop_back();
             digits.pop_back();
             digits.push_back(10);
         }
 
         //now apply formula
-        if((digits[0] * 10 + digits[1] * 9 + digits[2] * 8 + digits[3] * 7 +               digits[4] * 6 + digits[5] * 5 + digits[6] * 4 + digits[7] * 3 + digits[8]          * 2 + digits[9] * 1) % 11 == 0){
+        if((digits[0] * 10 + digits[1] * 9 + digits[2] * 8 + digits[3] * 7 + digits[4] * 6 + digits[5] * 5 + digits[6] * 4 + digits[7] * 3 + digits[8] * 2 + digits[9] * 1) % 11 == 0){
             return true;
         }
         
