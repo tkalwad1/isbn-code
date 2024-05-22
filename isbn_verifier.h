@@ -4,6 +4,7 @@
 using namespace std;
 
 namespace isbn_verifier {
+     int firstDigit(int n);
      bool is_valid(string isbn);
 } // namespace isbn_verifier
 
