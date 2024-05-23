@@ -40,7 +40,7 @@ namespace isbn_verifier {
         //account for X being converted to 9
         if(digits[digits.size() - 1] == 9){
             digits.pop_back();
-            digits.push_back(10);
+            digits.push_back(10); // changes the 9 to a 10 (can't do this before since '10' and 'X' are different sizes)
         }
 
         digits[0] = firstDigit(myInteger); //accounts for incorrect first digit
