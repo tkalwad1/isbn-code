@@ -24,7 +24,7 @@ namespace isbn_verifier {
 
         //now check if contains X
         if(isbn[isbn.size() - 1] == 'X'){
-            isbn[isbn.size() - 1] = '9'; // converts X to 9 (this is arbitrary)
+            isbn[isbn.size() - 1] = '9'; // converts X to 9 (this is an arbitrary placeholder)
         }
 
         int myInteger = stoi(isbn); // converts string to int
