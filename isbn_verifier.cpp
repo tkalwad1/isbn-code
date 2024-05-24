@@ -6,50 +6,45 @@
 using namespace std;
 
 namespace isbn_verifier {
-    int firstDigit(int n) 
-        { 
-            // Remove last digit from number 
-            // till only one digit is left 
-            while (n >= 10)  
-                n /= 10; 
-              
-            // return the first digit 
-            return n; 
-        } 
-    bool is_valid(string isbn){
-        //first remove dashes
-        isbn.erase(remove(isbn.begin(), isbn.end(), '-'), isbn.end()); 
+#include "isbn_verifier.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+namespace isbn_verifier {
+    bool is_valid(string isbn) {
+        // check validity of string
+        // check for length
+        int size = isbn.size();
+        if (!(size ==10 || size == 13)) {
+            return false;
+        }
+
+        // check for non-allowed-characters
         
-        if(isbn.size() != 10){return false;} // checks correct size
-
-        //now check if contains X
-        if(isbn[isbn.size() - 1] == 'X'){
-            isbn[isbn.size() - 1] = '9'; // converts X to 9 (this is an arbitrary placeholder)
+        for(int i = 0; i<size; i++) {
+            if (!((isbn[i] >= '0' && isbn[i] <= '9') || isbn[i] == 'X' || isbn[i] == '-')) {
+                return false;
+            }
         }
 
-        int myInteger = stoi(isbn); // converts string to int
+        // apply formula for each character of string and return true/false
+        int multiplier = 10;
+        int value = 0;
+        for (int i=0; i<size; i++) {
+            if (isbn[i] == '-') {
+                continue; // ignore dashes
+            }
 
-        //now insert all digits of the integer into a vector
-        vector<int> digits;
-        while(myInteger){
-            digits.push_back(myInteger % 10);
-            myInteger /= 10;
+            if (isbn[i] == 'X') {
+                value = value + 10;
+            } else {
+                value = value + (isbn[i] - '0') * multiplier;
+            }
+            multiplier = multiplier - 1;
         }
-        reverse(digits.begin(), digits.end());
 
-        //account for X being converted to 9
-        if(digits[digits.size() - 1] == 9){
-            digits.pop_back();
-            digits.push_back(10); // changes the 9 to a 10 (can't do this before since '10' and 'X' are different sizes)
-        }
-
-        digits[0] = firstDigit(myInteger); //accounts for incorrect first digit
-
-        //now apply formula
-        if((digits[0] * 10 + digits[1] * 9 + digits[2] * 8 + digits[3] * 7 + digits[4] * 6 + digits[5] * 5 + digits[6] * 4 + digits[7] * 3 + digits[8] * 2 + digits[9] * 1) % 11 == 0){
-            return true;
-        }
-        
-        return false;
+        return (value % 11 == 0);
     }
 }  // namespace isbn_verifier
